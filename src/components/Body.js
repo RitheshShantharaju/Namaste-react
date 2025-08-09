@@ -3,6 +3,7 @@ import RestaurantCard from "./RestaurantCard";
 
 import resList from "./utils/mockData";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [listOfRestaurant, setListOfRestaurant] = useState([]);
@@ -45,7 +46,7 @@ const Body = () => {
           className="search-btn"
           onClick={() => {
             const filteredRestaurant = listOfRestaurant.filter((res) =>
-              res.info.name.toLowerCase().includes(searchText.toLowerCase())
+              res?.info?.name?.toLowerCase().includes(searchText.toLowerCase())
             );
             setfilteredRestaurant(filteredRestaurant);
           }}
@@ -56,7 +57,7 @@ const Body = () => {
           className="filter-restaurant"
           onClick={() => {
             const filteredList = listOfRestaurant.filter(
-              (res) => res.info.avgRating > 4.3
+              (res) => res?.info?.avgRating > 4.3
             );
             setListOfRestaurant(filteredList);
           }}
@@ -65,8 +66,13 @@ const Body = () => {
         </button>
       </div>
       <div className="res-container">
-        {filteredRestaurant.map((restaurant) => (
-          <RestaurantCard key={restaurant?.info?.id} resData={restaurant} />
+        {filteredRestaurant?.map((restaurant) => (
+          <Link
+            key={restaurant?.info?.id}
+            to={"/restaurants/" + restaurant?.info?.id}
+          >
+            <RestaurantCard resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>
